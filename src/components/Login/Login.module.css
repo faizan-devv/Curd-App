@@ -54,7 +54,7 @@
   text-align: center;
   padding: 15px 40px;
   margin-top: 20px;
-  background-color: #000;
+  background-color: #0f0426a6;
   color: #fff;
   font-size: 14px;
   margin-left: auto;
@@ -67,7 +67,7 @@
 .loginCard button:hover {
   transform: translateY(-3px);
   box-shadow: 0 2px 6px -1px rgba(182, 157, 230, 0.65);
-  background-color: #000;
+  background-color: rgba(182, 157, 230, 0.65);
   border-radius: 24px;
 }
 .loginCard button:hover:active {

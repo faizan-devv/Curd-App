@@ -1,5 +1,4 @@
 import "./App.css";
-import HomePage from "./Pages/HomePage";
 import Router from "./Routes";
 
 function App() {
