@@ -1,5 +1,6 @@
 import { Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import WebcamComponent from "../Webcam";
 
 function MyVerticallyCenteredModal(props) {
   return (
@@ -11,15 +12,14 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Please confirm to delete
+          Please take a new photo to upload
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <h4>This Entry will be deleted</h4>
-        <p>Permenent deletion will occur</p>
-        <Button className="btn-danger" onClick={props.delete}>
-          Confirm
-        </Button>
+      <Modal.Body className="text-center">
+        <WebcamComponent
+          email={props.email}
+          rerender={props.rerender}
+        ></WebcamComponent>
       </Modal.Body>
     </Modal>
   );

@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 const SignUp = () => {
   let navigate = useNavigate();
   const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    rollNum: "",
     email: "",
     password: "",
   });
@@ -43,9 +46,9 @@ const SignUp = () => {
               <h2>Sign Up</h2>
               <Form.Group className="mb-3">
                 <Form.Control
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
+                  name="firstName"
+                  type="text"
+                  placeholder="Enter First Name"
                   onChange={(e) => {
                     onChangeHandler(e);
                   }}
@@ -54,16 +57,52 @@ const SignUp = () => {
 
               <Form.Group className="mb-3">
                 <Form.Control
-                  name="password"
-                  type="password"
-                  placeholder="Password"
+                  name="lastName"
+                  type="text"
+                  placeholder="Enter Last Name"
                   onChange={(e) => {
                     onChangeHandler(e);
                   }}
                 />
               </Form.Group>
 
-              {userData.email.length >= 3 && userData.password.length >= 3 ? (
+              <Form.Group className="mb-3">
+                <Form.Control
+                  name="rollNum"
+                  type="text"
+                  placeholder="Enter Roll Number"
+                  onChange={(e) => {
+                    onChangeHandler(e);
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  name="email"
+                  type="email"
+                  placeholder="Enter Email"
+                  onChange={(e) => {
+                    onChangeHandler(e);
+                  }}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  name="password"
+                  type="password"
+                  placeholder="Enter Password"
+                  onChange={(e) => {
+                    onChangeHandler(e);
+                  }}
+                />
+              </Form.Group>
+
+              {userData.email.length >= 3 &&
+              userData.password.length >= 3 &&
+              userData.firstName.length >= 3 &&
+              userData.lastName.length >= 3 &&
+              userData.rollNum.length >= 3 ? (
                 <Button
                   variant="primary"
                   type="submit"

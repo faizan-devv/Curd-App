@@ -1,0 +1,7 @@
+.imageWrap {
+  margin-top: 10px;
+}
+.imageWrap img {
+  border-radius: 100%;
+  width: 80%;
+}

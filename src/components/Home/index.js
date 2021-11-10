@@ -3,6 +3,8 @@ import UserInfoForm from "../UserInfoForm";
 import UserTable from "../UserTable";
 import { Container } from "react-bootstrap";
 import MyVerticallyCenteredModal from "../Modal";
+import UserInfoCard from "../UserInfoCard";
+import WebcamComponent from "../Webcam";
 
 const Home = () => {
   //States
@@ -12,6 +14,7 @@ const Home = () => {
     isEditing: false,
     editIndex: 0,
   });
+  const [rerenderFlag, setRerenderFlag] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -22,7 +25,9 @@ const Home = () => {
   const [modalShow, setModalShow] = useState(false);
 
   //Methods
-
+  const RerenderHome = () => {
+    setRerenderFlag(!rerenderFlag);
+  };
   const emptyUserData = () => {
     setUser({
       firstName: "",
@@ -89,13 +94,26 @@ const Home = () => {
   };
 
   useEffect(() => {
-    let temp = JSON.parse(localStorage.getItem("creds"));
-    setuserInfo(temp.users);
-  }, []);
+    let temp = JSON.parse(localStorage.getItem("LoggedIn"));
+    let data = JSON.parse(localStorage.getItem("creds"));
+    let index = data.users.findIndex((x) => {
+      return x.email === temp.email;
+    });
+    setUser(data.users[index]);
+  }, [rerenderFlag]);
 
   return (
     <Container>
-      <UserInfoForm
+      <UserInfoCard user={user} />
+      <button
+        onClick={() => {
+          setModalShow(true);
+        }}
+      >
+        Update Profile Picture
+      </button>
+
+      {/* <UserInfoForm
         change={onChangeHandler}
         add={handleAddUser}
         editing={edit.isEditing}
@@ -103,10 +121,12 @@ const Home = () => {
         save={handleSaveEdit}
         cancel={handleCancelEdit}
       />
-      <UserTable users={userInfo} edit={handleEdit} delete={showDeleteModal} />
+      <UserTable users={userInfo} edit={handleEdit} delete={showDeleteModal} />*/}
       <MyVerticallyCenteredModal
         delete={handleDelete}
         show={modalShow}
+        email={user.email}
+        rerender={RerenderHome}
         onHide={() => setModalShow(false)}
       />
     </Container>

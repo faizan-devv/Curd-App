@@ -24,6 +24,16 @@ const Login = () => {
     let result = creds?.users.filter((x) => {
       return x.email === email && x.password === password;
     });
+    localStorage.setItem(
+      "LoggedIn",
+      JSON.stringify({
+        firstName: result[0]?.firstName,
+        lastName: result[0]?.lastName,
+        rollNum: result[0]?.rollNum,
+        email: result[0]?.email,
+        photoSrc: result[0]?.photoSrc,
+      })
+    );
     if (result?.length > 0) {
       Auth.authenticate();
       history("Home");
