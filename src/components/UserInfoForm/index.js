@@ -82,9 +82,20 @@ const UserInfoTable = (props) => {
             </Button>
           </>
         ) : (
-          <Button variant="primary" onClick={props.add}>
-            Create New User
-          </Button>
+          [
+            props.user.email &&
+            props.user.password &&
+            props.user.firstName &&
+            props.user.rollNum ? (
+              <Button variant="primary" onClick={props.add}>
+                Create New User
+              </Button>
+            ) : (
+              <Button variant="primary" onClick={props.add} disabled>
+                Create New User
+              </Button>
+            ),
+          ]
         )}
       </Form>
     </div>
