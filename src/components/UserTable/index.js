@@ -3,6 +3,8 @@ import { Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
 const UserTable = (props) => {
+  let temp = localStorage.getItem("creds");
+  let storedData = JSON.parse(temp);
   return (
     <div>
       <Table striped bordered hover>
@@ -17,7 +19,7 @@ const UserTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.users?.map((user, index) => {
+          {storedData.users?.map((user, index) => {
             return (
               <tr key={index}>
                 <td>{index}</td>

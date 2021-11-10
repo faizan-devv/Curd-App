@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import Auth from "../../Auth";
@@ -19,21 +19,28 @@ const Login = () => {
 
   const HandleClick = (e) => {
     e.preventDefault();
-    if (
-      (email === "bilal@gmail.com" && password === "123") ||
-      (email === "faizan@gmail.com" && password === "123") ||
-      (email === "arif@gmail.com" && password === "123") ||
-      (email === "rafi@gmail.com" && password === "123") ||
-      (email === "najam@gmail.com" && password === "123")
-    ) {
-      localStorage.setItem("isLogin", true);
+    let creds = localStorage.getItem("creds");
+    creds = JSON.parse(creds);
+    let result = creds?.users.filter((x) => {
+      return x.email === email && x.password === password;
+    });
+    if (result?.length > 0) {
       Auth.authenticate();
       history("Home");
     } else {
       setError(true);
     }
   };
-
+  useEffect(() => {
+    let creds = localStorage.getItem("creds");
+    if (!creds) {
+      let obj = {
+        users: [{ email: "faizan@gmail.com", password: "123" }],
+      };
+      let stringified = JSON.stringify(obj);
+      localStorage.setItem("creds", stringified);
+    }
+  }, []);
   return (
     <div className={styles.loginCard}>
       <div className={styles.session}>
@@ -130,8 +137,22 @@ const Login = () => {
               </svg>
             </div>
           </div>
-          <button type="submit" onClick={HandleClick}>
-            Log in
+          {email.length >= 3 && password.length >= 3 ? (
+            <button type="submit" onClick={HandleClick}>
+              Log in
+            </button>
+          ) : (
+            <button type="submit" onClick={HandleClick} disabled>
+              Log in
+            </button>
+          )}
+          <button
+            type="submit"
+            onClick={() => {
+              history("signup");
+            }}
+          >
+            Sign Up
           </button>
           {error ? (
             <p className={styles.error}>Your credentials are invalid</p>

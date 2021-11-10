@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserInfoForm from "../UserInfoForm";
 import UserTable from "../UserTable";
 import { Container } from "react-bootstrap";
@@ -40,12 +40,18 @@ const Home = () => {
   const handleAddUser = () => {
     const temp = [...userInfo];
     const userData = { ...user };
+    let local = JSON.parse(localStorage.getItem("creds"));
+    local.users.push(userData);
+    localStorage.setItem("creds", JSON.stringify(local));
     temp.push(userData);
     setuserInfo(temp);
     emptyUserData();
   };
   const handleDelete = () => {
     const temp = [...userInfo];
+    let local = JSON.parse(localStorage.getItem("creds"));
+    local.users.splice(edit.editIndex, 1);
+    localStorage.setItem("creds", JSON.stringify(local));
     temp.splice(edit.editIndex, 1);
     setuserInfo(temp);
     setModalShow(false);
@@ -61,6 +67,9 @@ const Home = () => {
   };
   const handleSaveEdit = () => {
     const temp = [...userInfo];
+    let local = JSON.parse(localStorage.getItem("creds"));
+    local.users[edit.editIndex] = { ...user };
+    localStorage.setItem("creds", JSON.stringify(local));
     temp[edit.editIndex] = { ...user };
     setuserInfo(temp);
     const temp1 = { ...edit };
@@ -78,6 +87,11 @@ const Home = () => {
     setEdit({ ...edit, editIndex: index });
     setModalShow(true);
   };
+
+  useEffect(() => {
+    let temp = JSON.parse(localStorage.getItem("creds"));
+    setuserInfo(temp.users);
+  }, []);
 
   return (
     <Container>
