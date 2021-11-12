@@ -21,7 +21,10 @@ const Home = () => {
     rollNum: "",
     email: "",
     password: "",
+    photoSrc: [],
   });
+
+  const [photoBomb, setPhotoBomb] = useState(false);
   const [modalShow, setModalShow] = useState(false);
 
   //Methods
@@ -107,10 +110,20 @@ const Home = () => {
       <UserInfoCard user={user} />
       <button
         onClick={() => {
+          setPhotoBomb(false);
           setModalShow(true);
         }}
       >
         Update Profile Picture
+      </button>
+
+      <button
+        onClick={() => {
+          setPhotoBomb(true);
+          setModalShow(true);
+        }}
+      >
+        Photo Bomb
       </button>
 
       {/* <UserInfoForm
@@ -123,6 +136,7 @@ const Home = () => {
       />
       <UserTable users={userInfo} edit={handleEdit} delete={showDeleteModal} />*/}
       <MyVerticallyCenteredModal
+        type={photoBomb}
         delete={handleDelete}
         show={modalShow}
         email={user.email}

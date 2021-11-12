@@ -17,6 +17,7 @@ function MyVerticallyCenteredModal(props) {
       </Modal.Header>
       <Modal.Body className="text-center">
         <WebcamComponent
+          type={props.type}
           email={props.email}
           rerender={props.rerender}
         ></WebcamComponent>
