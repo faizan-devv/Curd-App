@@ -32,6 +32,7 @@ const Login = () => {
         rollNum: result[0]?.rollNum,
         email: result[0]?.email,
         photoSrc: result[0]?.photoSrc,
+        photoBomb: result[0]?.photoBomb,
       })
     );
     if (result?.length > 0) {

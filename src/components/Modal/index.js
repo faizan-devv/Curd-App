@@ -20,6 +20,7 @@ function MyVerticallyCenteredModal(props) {
           type={props.type}
           email={props.email}
           rerender={props.rerender}
+          hide={props.onHide}
         ></WebcamComponent>
       </Modal.Body>
     </Modal>

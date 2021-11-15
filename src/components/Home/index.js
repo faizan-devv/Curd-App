@@ -7,6 +7,7 @@ import UserInfoCard from "../UserInfoCard";
 import WebcamComponent from "../Webcam";
 
 const Home = () => {
+  let data = JSON.parse(localStorage.getItem("LoggedIn"));
   //States
 
   const [userInfo, setuserInfo] = useState([]);
@@ -22,6 +23,7 @@ const Home = () => {
     email: "",
     password: "",
     photoSrc: [],
+    photoBomb: [],
   });
 
   const [photoBomb, setPhotoBomb] = useState(false);
@@ -40,6 +42,7 @@ const Home = () => {
       password: "",
     });
   };
+
   const onChangeHandler = (e) => {
     const temp = { ...user };
     temp[e.target.name] = e.target.value;
@@ -104,7 +107,7 @@ const Home = () => {
     });
     setUser(data.users[index]);
   }, [rerenderFlag]);
-
+  JSON.parse(localStorage.getItem(""));
   return (
     <Container>
       <UserInfoCard user={user} />
@@ -125,7 +128,13 @@ const Home = () => {
       >
         Photo Bomb
       </button>
-
+      <div>
+        <div>
+          {user.photoBomb?.map((source) => {
+            return <img src={source} />;
+          })}
+        </div>
+      </div>
       {/* <UserInfoForm
         change={onChangeHandler}
         add={handleAddUser}

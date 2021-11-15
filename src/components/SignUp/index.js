@@ -23,16 +23,13 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let temp = localStorage.getItem("creds");
-    console.log(temp);
     if (temp) {
-      console.log("entered if");
       temp = JSON.parse(temp);
       temp.users.push(userData);
       let obj = JSON.stringify(temp);
       localStorage.setItem("creds", obj);
       navigate("/");
     } else {
-      console.log("Entered else");
       localStorage.setItem("creds", JSON.stringify({ users: [userData] }));
       navigate("/");
     }

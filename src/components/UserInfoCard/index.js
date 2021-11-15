@@ -4,9 +4,6 @@ import styles from "./UserInfoCard.module.css";
 
 const UserInfoCard = (props) => {
   //   let user = JSON.parse(localStorage.getItem("LoggedIn"));
-  console.log(props.user);
-  console.log(props.user.photoSrc);
-
   return (
     <div className=" my-5 ">
       <div className="card mx-auto bg-info" style={{ width: "25rem" }}>
@@ -14,7 +11,7 @@ const UserInfoCard = (props) => {
           {props.user.photoSrc?.length > 0 ? (
             <img
               className="card-img-top "
-              src={props.user.photoSrc[0]}
+              src={props.user.photoSrc[1]}
               alt="Card image cap"
             />
           ) : (

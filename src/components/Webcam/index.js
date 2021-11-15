@@ -3,6 +3,8 @@ import ReactSpinnerTimer from "react-spinner-timer";
 import { useState } from "react";
 import Webcam from "react-webcam";
 import styles from "./WebCam.module.css";
+import { style } from "dom-helpers";
+let temp = [];
 
 const videoConstraints = {
   width: 632,
@@ -10,20 +12,28 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-const WebcamCapture = ({ email, rerender, type }) => {
+const WebcamCapture = ({ email, rerender, type, hide }) => {
   const [imgSrc, setImgSrc] = useState([]);
+  const [count, setCount] = useState([0]);
+  const [re, setRe] = useState(false);
+  const [showBomb, setShowBomb] = useState(false);
   const webcamRef = React.useRef(null);
-
   const capture = React.useCallback(() => {
-    console.log("Entered Capture");
-    const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc, "image source");
-
-    temp.push(imageSrc);
-    console.log(temp, "temp before");
-    temp.push(imageSrc);
-    console.log(temp, "temppppp");
-    setImgSrc(temp);
+    if (type) {
+      if (temp.length > 9) {
+        temp = [];
+      }
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (imageSrc != null) {
+        temp.push(imageSrc);
+        setImgSrc(temp);
+        setRe(!re);
+      }
+    } else {
+      const imageSrc = webcamRef.current.getScreenshot();
+      temp.push(imageSrc);
+      setImgSrc([imageSrc]);
+    }
   }, [webcamRef]);
 
   const saveProfilePicture = () => {
@@ -32,12 +42,13 @@ const WebcamCapture = ({ email, rerender, type }) => {
       return x.email === email;
     });
     if (type) {
-      const arr = data.users[index].photoSrc.push(imgSrc);
+      const arr = temp;
       data.users[index] = {
         ...data.users[index],
-        photoSrc: arr,
+        photoBomb: arr,
       };
       localStorage.setItem("creds", JSON.stringify(data));
+      hide();
       rerender();
     } else {
       const arr = data.users[index].photoSrc.concat(imgSrc);
@@ -45,25 +56,22 @@ const WebcamCapture = ({ email, rerender, type }) => {
         ...data.users[index],
         photoSrc: arr,
       };
+      hide();
       localStorage.setItem("creds", JSON.stringify(data));
       rerender();
     }
   };
   const handleChange = (lap) => {
     if (lap.isFinish) {
+      setShowBomb(true);
+      setCount(lap.actualLap - 1);
       capture();
-      console.log("Finished!!");
     } else {
       capture();
+      setCount(lap.actualLap - 1);
     }
   };
 
-  // useEffect(() => {
-  //   if (!type) {
-  //     console.log("Resetting Array");
-  //     setImgSrc([]);
-  //   }
-  // }, []);
   return (
     <>
       {type ? (
@@ -80,13 +88,24 @@ const WebcamCapture = ({ email, rerender, type }) => {
             <div className={styles.Spinner}>
               <ReactSpinnerTimer
                 timeInSeconds={1}
-                totalLaps={10}
+                totalLaps={11}
                 isRefresh={false}
                 onLapInteraction={handleChange}
               />
+              <div className={styles.Counter}>{count}</div>
             </div>
           </div>
-          <div></div>
+
+          <div>
+            <div className={styles.GalleryWrap}>
+              {showBomb
+                ? imgSrc.map((src, index) => {
+                    return <img key={index} src={src} alt="image" />;
+                  })
+                : null}
+            </div>
+          </div>
+          <button onClick={saveProfilePicture}>Save</button>
         </div>
       ) : (
         [
